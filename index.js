@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const productRoutes = require("./src/routes/productRoutes");
@@ -7,14 +8,18 @@ const cartRoutes = require("./src/routes/cartRoutes");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "http://localhost:5175",
+];
+if (process.env.FRONTEND_ORIGIN) {
+  allowedOrigins.push(process.env.FRONTEND_ORIGIN);
+}
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "http://localhost:5174",
-      "http://localhost:5175",
-      // "http://localhost:3000",
-    ],
+    origin: allowedOrigins,
   }),
 );
 app.use(express.json());
